@@ -1,3 +1,21 @@
+/* Define the color variables */
+:root {
+    /* Green */
+    --primary-color: #4CAF50;
+    /* Light Green */
+    --secondary-color: #8BC34A;
+    /* White */
+    --background-color: #FFFFFF;
+    /* Dark Gray */
+    --text-color: #333333;
+    /* Darker Green (for button hover) */
+    --button-hover-color: #388E3C;
+    /* Border color for inputs */
+    --border-color: #CCCCCC;
+    /* Light gray for list borders */
+    --text-light-color: #f0f0f0;
+}
+
 /* Set the width and height of the popup */
 /* Set the width and height of the popup */
 body {
@@ -13,7 +31,32 @@ body {
 }
 
 #promptInput {
-    margin-left: 10px;
+    /* Subtract 10px margin on each side */
+    width: calc(100% - 20px);
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-inline: 10px;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius);
+    /* Set a height to allow for multiple lines */
+    height: 120px;
+    /* Allows resizing vertically if needed */
+    resize: vertical;
+    /* Optional: to match other elements */
+    font-family: Arial, sans-serif;
+}
+
+.save-prompt-container {
+    display: flex;
+    /* Flexbox to center the button horizontally */
+    justify-content: center;
+    /* Centers the button horizontally */
+    align-items: center;
+    /* Centers the button vertically */
+    margin-top: 20px;
+    /* Space above the button */
+    margin-bottom: 10px;
+    /* Space below the button */
 }
 
 /* Style for the prompt container */
@@ -40,6 +83,11 @@ body {
     font-size: 16px;
 }
 
+/* Style for the actions block */
+.prompt-number {
+    font-size: 20px;
+}
+
 /* Button styles */
 button {
     padding: 5px 10px;
@@ -49,12 +97,24 @@ button {
     font-size: 14px;
 }
 
+button:hover {
+    background-color: #CCCCCC;
+}
+
 button.delete {
     background-color: red;
     color: white;
 }
 
+button.delete:hover {
+    background-color: darkred;
+}
+
 button.modify {
     background-color: blue;
     color: white;
+}
+
+button.modify:hover {
+    background-color: darkblue;
 }

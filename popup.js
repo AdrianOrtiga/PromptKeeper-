@@ -72,9 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const promptContainer = document.createElement('div');
 
             const promptTextBlock = document.createElement('div');
-            promptTextBlock.textContent = `${index + 1}. ${prompt}`;
+            // Replace newlines with <br> tags for proper rendering
+            const formattedPrompt = prompt.replace(/\n/g, '<br>');
+            promptTextBlock.innerHTML = `${formattedPrompt}`;
 
             const actionsBlock = document.createElement('div');
+
+            // const promptIndex = document.createElement('span')
+            // promptIndex.classList.add('prompt-number')
+            // promptIndex.textContent = `${index + 1}.`
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
@@ -97,14 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 promptTextBlock.focus(); // Focus on the text block
                 if (!isEditable) {
                     modifyButton.textContent = 'Save'; // Change button text to "Save"
-                    promptTextBlock.textContent = promptTextBlock.textContent.slice(3)
                 } else {
                     modifyButton.textContent = 'Modify'; // Revert button text to "Modify"
-                    newPrompt = promptTextBlock.textContent
-                    UpdatePrompt(newPrompt, index)
+                    newPrompt = promptTextBlock.innerHTML
+                    const formattedNewPrompt = newPrompt.replace('<div>', '\n');
+                    console.log(formattedNewPrompt)
+                    UpdatePrompt(formattedNewPrompt, index)
                 }
             });
 
+            // actionsBlock.appendChild(promptIndex);
             actionsBlock.appendChild(modifyButton);
             actionsBlock.appendChild(deleteButton);
 

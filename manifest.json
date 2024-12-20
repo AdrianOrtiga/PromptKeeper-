@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Prompt Saver",
+    "version": "1.0",
+    "description": "A simple Chrome extension that saves prompts.",
+    "permissions": [
+        "storage"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/icon16.png",
+            "48": "images/icon48.png",
+            "128": "images/icon128.png"
+        }
+    },
+    "icons": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    }
+}

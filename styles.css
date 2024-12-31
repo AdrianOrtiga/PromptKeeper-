@@ -1,15 +1,15 @@
 /* Define the color variables */
 :root {
-    /* Green */
-    --primary-color: #4CAF50;
-    /* Light Green */
-    --secondary-color: #8BC34A;
+    /* Teal */
+    --primary-color: #008080;
+    /* Light Teal */
+    --secondary-color: #20B2AA;
     /* White */
     --background-color: #FFFFFF;
     /* Dark Gray */
     --text-color: #333333;
-    /* Darker Green (for button hover) */
-    --button-hover-color: #388E3C;
+    /* Darker Teal (for button hover) */
+    --button-hover-color: #006666;
     /* Border color for inputs */
     --border-color: #CCCCCC;
     /* Light gray for list borders */
@@ -17,9 +17,8 @@
 }
 
 /* Set the width and height of the popup */
-/* Set the width and height of the popup */
 body {
-    width: 500px;
+    width: 350px;
     /* Adjust width as needed */
     height: 600px;
     /* Adjust height as needed */
@@ -30,16 +29,37 @@ body {
     font-family: Arial, sans-serif;
 }
 
+h1 {
+    font-size: 24px;
+    /* Adjust the size as needed */
+    font-weight: bold;
+    /* Make it stand out */
+    color: var(--primary-color);
+    /* Use the primary color for consistency */
+    text-align: center;
+    /* Center-align the header */
+    margin-top: 10px;
+    /* Add space above the header */
+    margin-bottom: 20px;
+    /* Add space below the header */
+    text-transform: uppercase;
+    /* Optional: Transform text to uppercase */
+    letter-spacing: 2px;
+    /* Optional: Add spacing between letters */
+    border-bottom: 2px solid var(--secondary-color);
+    /* Add a separator line below */
+    padding-bottom: 5px;
+    /* Add space between text and the border */
+}
+
 #promptInput {
     /* Subtract 10px margin on each side */
     width: calc(100% - 20px);
     font-size: 16px;
     margin-bottom: 10px;
     margin-inline: 10px;
-    border: 1px solid var(--input-border-color);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    /* Set a height to allow for multiple lines */
-    height: 120px;
     /* Allows resizing vertically if needed */
     resize: vertical;
     /* Optional: to match other elements */
@@ -53,7 +73,7 @@ body {
     /* Centers the button horizontally */
     align-items: center;
     /* Centers the button vertically */
-    margin-top: 20px;
+    margin-top: 10px;
     /* Space above the button */
     margin-bottom: 10px;
     /* Space below the button */
@@ -73,7 +93,13 @@ body {
 /* Style for the prompt text */
 #promptList>div>div:first-child {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.actions-left,
+.actions-right {
+    display: flex;
     gap: 5px;
 }
 
@@ -98,7 +124,13 @@ button {
 }
 
 button:hover {
-    background-color: #CCCCCC;
+    background-color: var(--button-hover-color);
+}
+
+.copy-message {
+    color: var(--primary-color);
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 button.delete {

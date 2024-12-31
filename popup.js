@@ -77,11 +77,35 @@ document.addEventListener('DOMContentLoaded', () => {
             promptTextBlock.innerHTML = `${formattedPrompt}`;
 
             const actionsBlock = document.createElement('div');
+            const actionsLeft = document.createElement('div');
+            actionsLeft.classList.add('actions-left');
+            const actionsRight = document.createElement('div');
+            actionsRight.classList.add('actions-right');
 
             // const promptIndex = document.createElement('span')
             // promptIndex.classList.add('prompt-number')
             // promptIndex.textContent = `${index + 1}.`
 
+            // Copy Button
+            const copyButton = document.createElement('button');
+            copyButton.textContent = 'Copy';
+            copyButton.classList.add('copy');
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(prompt).then(() => {
+                    const message = document.createElement('span');
+                    message.textContent = 'Copied!';
+                    message.classList.add('copy-message');
+                    copyButton.parentElement.appendChild(message);
+
+                    setTimeout(() => {
+                        message.remove();
+                    }, 2000); // Remove after 2 seconds
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // delete button
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.classList.add('delete')
@@ -92,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayPrompts(prompts); // Re-render the list
             });
 
+            // modify button
             const modifyButton = document.createElement('button');
             modifyButton.textContent = 'Modify';
             modifyButton.classList.add('modify')
@@ -112,9 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // actionsBlock.appendChild(promptIndex);
-            actionsBlock.appendChild(modifyButton);
-            actionsBlock.appendChild(deleteButton);
+            actionsLeft.appendChild(copyButton);
+
+            actionsRight.appendChild(modifyButton);
+            actionsRight.appendChild(deleteButton);
+
+            actionsBlock.appendChild(actionsLeft);
+            actionsBlock.appendChild(actionsRight);
 
             promptContainer.appendChild(actionsBlock);
             promptContainer.appendChild(promptTextBlock);

@@ -55,6 +55,7 @@ h1 {
 #promptInput {
     /* Subtract 10px margin on each side */
     width: calc(100% - 20px);
+    height: auto;
     font-size: 16px;
     margin-bottom: 10px;
     margin-inline: 10px;
@@ -69,7 +70,7 @@ h1 {
 .save-prompt-container {
     display: flex;
     /* Flexbox to center the button horizontally */
-    justify-content: center;
+    justify-content: space-around;
     /* Centers the button horizontally */
     align-items: center;
     /* Centers the button vertically */
@@ -149,4 +150,39 @@ button.modify {
 
 button.modify:hover {
     background-color: darkblue;
+}
+
+.classification-container,
+.filter-container {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px;
+    align-self: center;
+}
+
+select {
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.category-label:disabled {
+    -webkit-appearance: none;
+    /* For WebKit browsers (Chrome, Safari, etc.) */
+    -moz-appearance: none;
+    /* For Firefox */
+    appearance: none;
+    /* For modern browsers */
+    background-image: none;
+    /* Remove the default arrow icon */
+    color: var(--text-color);
 }

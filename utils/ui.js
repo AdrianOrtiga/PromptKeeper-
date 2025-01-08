@@ -32,6 +32,11 @@ const UIManager = (function () {
         promptContainer.appendChild(actionsBlock);
         promptContainer.appendChild(promptTextBlock);
 
+        const lineCount = prompt.text.split('\n').length;
+        if (lineCount > 3 || prompt.text.length > 100) {
+            createShowMoreButton(promptContainer);
+        }
+
         return promptContainer;
     }
 
@@ -41,6 +46,27 @@ const UIManager = (function () {
         promptContainer.id = prompt.id;
         return promptContainer;
     }
+
+    function createShowMoreButton (promptContainer) {
+        const promptTextBlock = promptContainer.querySelector('.prompt-text');
+        promptTextBlock.style.overflow = 'hidden';
+        promptTextBlock.style.display = '-webkit-box';
+        promptTextBlock.style.webkitLineClamp = '2';
+        promptTextBlock.style.lineClamp = '2';
+        promptTextBlock.style.webkitBoxOrient = 'vertical';
+        promptTextBlock.style.textOverflow = 'ellipsis';
+
+        const showMoreButton = document.createElement('span');
+        showMoreButton.classList.add('show-more');
+        showMoreButton.textContent = 'Show more';
+        showMoreButton.dataset.uniqueId = promptContainer.id;
+
+        // When clicked, remove the truncation and show full text
+        showMoreButton.addEventListener('click', ListenerFunctionsManager.togglePromptVisibility);
+
+        promptContainer.appendChild(showMoreButton);
+    }
+
 
     function createPromptTextBlock (prompt) {
         const promptTextBlock = document.createElement('div');
@@ -170,24 +196,25 @@ const UIManager = (function () {
         });
     }
 
-    function setupFilterDropDown () {
+    function createTagsCategory () {
         StorageManager.getCategories().then(categories => {
-            const filterDropdownContainer = createDropdownContainer(
-                'filter-container',
-                'Filter by Category:',
-                'filterCategory',
-                categories,
-                true
-            );
+            const tagsContainer = document.getElementById('tagsContainer');
+            categories.forEach(category => {
+                const tag = document.createElement('span');
+                tag.classList.add('tag');
+                tag.textContent = category;
 
-            const filterCategory = filterDropdownContainer.querySelector('#filterCategory');
+                tag.addEventListener('click', () => {
+                    tagsContainer.querySelectorAll('.tag').forEach(tag => {
+                        tag.classList.remove('selected');
+                    });
 
-            filterCategory.addEventListener('change', () => {
-                const selectedCategory = filterCategory.value;
-                HelpersManager.filterCategories(selectedCategory);
+                    HelpersManager.filterCategories(category)
+                    tag.classList.add('selected');
+                });
+
+                tagsContainer.appendChild(tag);
             });
-
-            appendDropdownToContainer('promptManagementContainer', filterDropdownContainer);
         });
     }
 
@@ -213,6 +240,6 @@ const UIManager = (function () {
         adjustTextareaHeight: adjustTextareaHeight,
         appendDropdownToContainer: appendDropdownToContainer,
         setupCategoryInputDropDown: setupCategoryInputDropDown,
-        setupFilterDropDown: setupFilterDropDown
+        createTagsCategory: createTagsCategory,
     };
 })();

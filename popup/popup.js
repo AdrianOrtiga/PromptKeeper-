@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     UIManager.setupCategoryInputDropDown();
-    UIManager.setupFilterDropDown();
+    UIManager.createTagsCategory();
     StorageManager.getPrompts()
         .then((prompts) => {
             UIManager.displayPrompts(prompts);

@@ -21,7 +21,6 @@ const ListenerFunctionsManager = (function () {
         HelpersManager.adjustTextareaHeight(promptInput);
     }
 
-
     function copyPromtListener (event) {
         const copyButton = event.target;
         const formattedPrompt = copyButton.dataset.text;
@@ -83,11 +82,29 @@ const ListenerFunctionsManager = (function () {
         }
     }
 
+    function togglePromptVisibility (event) {
+        const showMoreButton = event.target;
+        const promptContainer = document.getElementById(showMoreButton.dataset.uniqueId)
+        const promptTextBlock = promptContainer.querySelector('.prompt-text');
+        // when clicking on the button modify should expand the text block
+
+        if (event.target.textContent == 'Show less') {
+            promptTextBlock.style.lineClamp = '2';
+            promptTextBlock.style.webkitLineClamp = '2';
+            showMoreButton.textContent = 'Show more';
+            return;
+        }
+
+        promptTextBlock.style.webkitLineClamp = 'unset';
+        showMoreButton.textContent = 'Show less';
+    }
+
     return {
         savePromptListener,
         inputAdjustListener,
         copyPromtListener,
         deletePromptListener,
-        modifyPromptListener
+        modifyPromptListener,
+        togglePromptVisibility
     }
 })();

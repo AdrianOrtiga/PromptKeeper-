@@ -29,7 +29,6 @@ const HelpersManager = (function () {
         StorageManager.updatePrompt(newPrompt)
             .then(() => {
                 console.log('Prompt updated:', newPrompt);
-                filterCategories(getCategoryFilter());
             })
             .catch((error) => {
                 console.error('Failed to update prompt:', error);
@@ -60,8 +59,8 @@ const HelpersManager = (function () {
     }
 
     function getCategoryFilter () {
-        const filterCategory = document.getElementById('filterCategory');
-        return filterCategory.value;
+        const filterCategory = document.querySelector('.tag.selected')
+        return filterCategory.textContent;
     }
 
     return {

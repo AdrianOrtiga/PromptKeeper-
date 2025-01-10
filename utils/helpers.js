@@ -38,7 +38,25 @@ const HelpersManager = (function () {
         return false;
     }
 
+    function expandPromptText (promptContainer) {
+        const promptTextBlock = promptContainer.querySelector('.prompt-text');
+        const actionBlock = promptContainer.querySelector('.actions-block');
 
+        promptContainer.insertBefore(actionBlock, promptContainer.firstChild);
+        promptTextBlock.style.maxHeight = 'none';
+        promptTextBlock.style.webkitLineClamp = 'unset';
+    }
+
+    function collapsePromptText (promptContainer) {
+        const promptTextBlock = promptContainer.querySelector('.prompt-text');
+        const actionBlock = promptContainer.querySelector('.actions-block');
+
+        promptTextBlock.style.maxHeight = variableManager.getVariable('maxHeight');
+        promptTextBlock.style.webkitLineClamp = variableManager.getVariable('lineClamp');
+
+        const promptActionsBlock = promptContainer.querySelector('.prompt-actions-block');
+        promptActionsBlock.appendChild(actionBlock);
+    }
 
     return {
         adjustTextareaHeight,
@@ -46,5 +64,7 @@ const HelpersManager = (function () {
         UpdatePrompt,
         deletePrompt,
         isNotValidPrompt,
+        expandPromptText,
+        collapsePromptText
     };
 })();

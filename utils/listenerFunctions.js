@@ -75,21 +75,17 @@ const ListenerFunctionsManager = (function () {
         }
     }
 
-    function togglePromptVisibility (event) {
+    function togglePromptExpansion (event) {
         const showMoreButton = event.target;
-        const promptContainer = document.getElementById(showMoreButton.dataset.uniqueId)
-        const promptTextBlock = promptContainer.querySelector('.prompt-text');
-        // when clicking on the button modify should expand the text block
-
-        if (event.target.textContent == 'Show less') {
-            promptTextBlock.style.maxHeight = variableManager.getVariable('maxHeight');
-            promptTextBlock.style.webkitLineClamp = variableManager.getVariable('lineClamp');
+        const promptContainer = document.getElementById(showMoreButton.dataset.uniqueId);
+        console.log(showMoreButton.textContent) // debug delte later
+        if (showMoreButton.textContent == 'Show less') {
+            HelpersManager.collapsePromptText(promptContainer)
             showMoreButton.textContent = 'Show more';
             return;
         }
 
-        promptTextBlock.style.maxHeight = 'none';
-        promptTextBlock.style.webkitLineClamp = 'unset';
+        HelpersManager.expandPromptText(promptContainer)
         showMoreButton.textContent = 'Show less';
     }
 
@@ -99,6 +95,6 @@ const ListenerFunctionsManager = (function () {
         copyPromtListener,
         deletePromptListener,
         modifyPromptListener,
-        togglePromptVisibility
+        togglePromptExpansion
     }
 })();

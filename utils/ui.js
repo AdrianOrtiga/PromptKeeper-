@@ -20,11 +20,13 @@ const UIManager = (function () {
 
     function createPromptElementContainer (prompt) {
         const promptContainer = createPromptContainer(prompt);
+        const promptActionsBlock = createPromptActionsBlock();
+        const actionBlock = createActionButtons(prompt);
         const promptTextBlock = createPromptTextBlock(prompt);
-        const actionsBlock = createActionButtons(prompt);
 
-        promptContainer.appendChild(actionsBlock);
-        promptContainer.appendChild(promptTextBlock);
+        promptActionsBlock.appendChild(promptTextBlock);
+        promptActionsBlock.appendChild(actionBlock);
+        promptContainer.appendChild(promptActionsBlock);
 
         const lineCount = prompt.text.split('\n').length;
         if (lineCount > 1 || prompt.text.length > 50) {
@@ -57,7 +59,7 @@ const UIManager = (function () {
         showMoreButton.dataset.uniqueId = promptContainer.id;
 
         // When clicked, remove the truncation and show full text
-        showMoreButton.addEventListener('click', ListenerFunctionsManager.togglePromptVisibility);
+        showMoreButton.addEventListener('click', ListenerFunctionsManager.togglePromptExpansion);
 
         promptContainer.appendChild(showMoreButton);
     }
@@ -72,12 +74,16 @@ const UIManager = (function () {
         return promptTextBlock;
     }
 
+    function createPromptActionsBlock () {
+        const prompActionsBlock = document.createElement('div');
+        prompActionsBlock.classList.add('prompt-actions-block');
+        return prompActionsBlock;
+    }
+
+
     function createActionButtons (prompt) {
         const actionsBlock = document.createElement('div');
-        const actionsLeft = document.createElement('div');
-        actionsLeft.classList.add('actions-left');
-        const actionsRight = document.createElement('div');
-        actionsRight.classList.add('actions-right');
+        actionsBlock.classList.add('actions-block');
 
         // Copy Button
         const copyButton = createButtonWithAction({
@@ -104,53 +110,16 @@ const UIManager = (function () {
             uniqueId: prompt.id
         });
 
-        actionsLeft.appendChild(copyButton);
-        actionsRight.appendChild(modifyButton);
-        actionsRight.appendChild(deleteButton);
-
-        actionsBlock.appendChild(actionsLeft);
-        actionsBlock.appendChild(actionsRight);
+        actionsBlock.appendChild(copyButton);
+        actionsBlock.appendChild(modifyButton);
+        actionsBlock.appendChild(deleteButton);
 
         return actionsBlock;
-    }
-
-    function createDropdownContainer (containerClass, labelText, dropdownId, includeAllOption = false) {
-        // Create the container div
-        const container = document.createElement('div');
-        container.classList.add(containerClass);
-
-        // Create the label
-        const label = document.createElement('label');
-        label.setAttribute('for', dropdownId);
-        label.textContent = labelText;
-
-        // Create the dropdown
-        const dropdown = document.createElement('select');
-        dropdown.id = dropdownId;
-
-        // Optionally add the "All" option
-        if (includeAllOption) {
-            const allOption = document.createElement('option');
-            allOption.value = 'All';
-            allOption.textContent = 'All';
-            dropdown.appendChild(allOption);
-        }
-
-        // Append the label and dropdown to the container
-        container.appendChild(label);
-        container.appendChild(dropdown);
-
-        return container;
     }
 
     function adjustTextareaHeight (textarea) {
         textarea.style.height = 'auto'; // Reset height
         textarea.style.height = textarea.scrollHeight + 'px'; // Set to scroll height
-    }
-
-    function appendDropdownToContainer (containerId, dropdownContainer) {
-        const container = document.getElementById(containerId);
-        container.appendChild(dropdownContainer);
     }
 
     function createButtonWithAction ({ buttonText, className, action, uniqueId, index, promptText }) {
@@ -170,8 +139,6 @@ const UIManager = (function () {
     // Public API for UI Manager
     return {
         displayPrompts: displayPrompts,
-        createDropdownContainer: createDropdownContainer,
-        adjustTextareaHeight: adjustTextareaHeight,
-        appendDropdownToContainer: appendDropdownToContainer
+        adjustTextareaHeight: adjustTextareaHeight
     };
 })();

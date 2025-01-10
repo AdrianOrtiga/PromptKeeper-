@@ -13,6 +13,7 @@ const variableManager = (function () {
     // Set default variables
     setVariable('lineClamp', '1');
     setVariable('maxHeight', '10px');
+    setVariable('actionButtonsMaxHeight', '10px')
 
     return {
         setVariable,

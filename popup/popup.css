@@ -18,7 +18,7 @@
 
 /* Set the width and height of the popup */
 body {
-    width: 350px;
+    width: 450px;
     /* Adjust width as needed */
     height: 600px;
     /* Adjust height as needed */
@@ -91,14 +91,13 @@ h1 {
 }
 
 /* Style for the prompt text */
-#promptList>div>div:first-child {
+.prompt-actions-block {
     display: flex;
     justify-content: space-between;
     gap: 5px;
 }
 
-.actions-left,
-.actions-right {
+.actions-block {
     display: flex;
     gap: 5px;
 }
@@ -144,29 +143,6 @@ button.modify {
 
 button.modify:hover {
     background-color: darkblue;
-}
-
-.classification-container,
-.filter-container {
-    margin: 10px 0;
-    font-size: 14px;
-}
-
-.filter-container {
-    display: flex;
-    justify-content: center;
-}
-
-label {
-    font-weight: bold;
-    margin-right: 5px;
-    align-self: center;
-}
-
-select {
-    padding: 5px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
 }
 
 .show-more {

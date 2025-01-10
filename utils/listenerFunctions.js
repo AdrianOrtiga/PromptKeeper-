@@ -7,12 +7,10 @@ const ListenerFunctionsManager = (function () {
         const uniqueId = Date.now() + '-' + Math.random().toString(36).substring(2, 15);
         prompt.id = uniqueId;
         prompt.text = HelpersManager.escapeHTML(promptInput.value);
-        prompt.category = HelpersManager.getCategoryInput();
         if (prompt) {
             StorageManager.savePrompt(prompt).then(() => {
                 promptInput.value = ''; // Clear input
                 HelpersManager.adjustTextareaHeight(promptInput);
-                HelpersManager.filterCategories(prompt.category);
             });
         }
     }
@@ -56,26 +54,21 @@ const ListenerFunctionsManager = (function () {
         const modifyButton = event.target;
         const promptContainer = document.getElementById(modifyButton.dataset.uniqueId);
         const promptTextBlock = promptContainer.querySelector('.prompt-text');
-        const categoryLabel = promptContainer.querySelector('.category-label');
         const isEditable = promptTextBlock.contentEditable === "true";
         promptTextBlock.contentEditable = !isEditable; // Toggle contentEditable
         promptTextBlock.focus(); // Focus on the text block
 
         if (!isEditable) {
             modifyButton.textContent = 'Save'; // Change button text to "Save"
-            categoryLabel.disabled = false;
 
         } else {
             modifyButton.textContent = 'Modify'; // Revert button text to "Modify"
-            categoryLabel.disabled = true; // Disable the dropdown
 
             const formattedNewPrompt = promptTextBlock.innerHTML.replace('<div>', '\n');
-            const newPromptCategory = categoryLabel.value;
 
             newPrompt = {
                 id: modifyButton.dataset.uniqueId,
                 text: formattedNewPrompt,
-                category: newPromptCategory
             }
 
             HelpersManager.UpdatePrompt(newPrompt);
@@ -89,12 +82,13 @@ const ListenerFunctionsManager = (function () {
         // when clicking on the button modify should expand the text block
 
         if (event.target.textContent == 'Show less') {
-            promptTextBlock.style.lineClamp = '2';
-            promptTextBlock.style.webkitLineClamp = '2';
+            promptTextBlock.style.maxHeight = variableManager.getVariable('maxHeight');
+            promptTextBlock.style.webkitLineClamp = variableManager.getVariable('lineClamp');
             showMoreButton.textContent = 'Show more';
             return;
         }
 
+        promptTextBlock.style.maxHeight = 'none';
         promptTextBlock.style.webkitLineClamp = 'unset';
         showMoreButton.textContent = 'Show less';
     }

@@ -10,7 +10,6 @@ const UIManager = (function () {
                 prompt = {
                     id: Date.now() + '-' + Math.random().toString(36).substring(2, 15),
                     text: prompt.text,
-                    category: 'General'
                 }
             }
 
@@ -24,16 +23,11 @@ const UIManager = (function () {
         const promptTextBlock = createPromptTextBlock(prompt);
         const actionsBlock = createActionButtons(prompt);
 
-        createCategoryDropdown(prompt).then(categoryLabel => {
-            const actionsRight = actionsBlock.querySelector('.actions-right');
-            actionsRight.insertBefore(categoryLabel, actionsRight.querySelector('.modify'));
-        });
-
         promptContainer.appendChild(actionsBlock);
         promptContainer.appendChild(promptTextBlock);
 
         const lineCount = prompt.text.split('\n').length;
-        if (lineCount > 3 || prompt.text.length > 100) {
+        if (lineCount > 1 || prompt.text.length > 50) {
             createShowMoreButton(promptContainer);
         }
 
@@ -49,12 +43,13 @@ const UIManager = (function () {
 
     function createShowMoreButton (promptContainer) {
         const promptTextBlock = promptContainer.querySelector('.prompt-text');
-        promptTextBlock.style.overflow = 'hidden';
         promptTextBlock.style.display = '-webkit-box';
-        promptTextBlock.style.webkitLineClamp = '2';
-        promptTextBlock.style.lineClamp = '2';
+        promptTextBlock.style.webkitLineClamp = variableManager.getVariable('lineClamp');
+        promptTextBlock.style.maxHeight = variableManager.getVariable('maxHeight');
         promptTextBlock.style.webkitBoxOrient = 'vertical';
+        promptTextBlock.style.overflow = 'hidden';
         promptTextBlock.style.textOverflow = 'ellipsis';
+        promptTextBlock.style.wordWrap = 'break-word';
 
         const showMoreButton = document.createElement('span');
         showMoreButton.classList.add('show-more');
@@ -119,24 +114,7 @@ const UIManager = (function () {
         return actionsBlock;
     }
 
-    function createCategoryDropdown (prompt) {
-        const categoryLabel = document.createElement('select');
-        categoryLabel.classList.add('category-label');
-        categoryLabel.disabled = true; // Make the dropdown disabled
-
-        return StorageManager.getCategories().then(categories => {
-            categories.forEach(category => {
-                const categoryOption = document.createElement('option');
-                categoryOption.value = category;
-                categoryOption.textContent = category;
-                categoryLabel.appendChild(categoryOption);
-            });
-            categoryLabel.value = prompt.category; // Set the selected category
-            return categoryLabel;
-        });
-    }
-
-    function createDropdownContainer (containerClass, labelText, dropdownId, categories, includeAllOption = false) {
+    function createDropdownContainer (containerClass, labelText, dropdownId, includeAllOption = false) {
         // Create the container div
         const container = document.createElement('div');
         container.classList.add(containerClass);
@@ -158,14 +136,6 @@ const UIManager = (function () {
             dropdown.appendChild(allOption);
         }
 
-        // Populate the dropdown with categories
-        categories.forEach(category => {
-            const categoryOption = document.createElement('option');
-            categoryOption.value = category;
-            categoryOption.textContent = category;
-            dropdown.appendChild(categoryOption);
-        });
-
         // Append the label and dropdown to the container
         container.appendChild(label);
         container.appendChild(dropdown);
@@ -183,48 +153,12 @@ const UIManager = (function () {
         container.appendChild(dropdownContainer);
     }
 
-    function setupCategoryInputDropDown () {
-        StorageManager.getCategories().then(categories => {
-            const categoryInputContainer = createDropdownContainer(
-                'classification-container',
-                'Category:',
-                'categoryInput',
-                categories
-            );
-
-            appendDropdownToContainer('save-prompt-container', categoryInputContainer);
-        });
-    }
-
-    function createTagsCategory () {
-        StorageManager.getCategories().then(categories => {
-            const tagsContainer = document.getElementById('tagsContainer');
-            categories.forEach(category => {
-                const tag = document.createElement('span');
-                tag.classList.add('tag');
-                tag.textContent = category;
-
-                tag.addEventListener('click', () => {
-                    tagsContainer.querySelectorAll('.tag').forEach(tag => {
-                        tag.classList.remove('selected');
-                    });
-
-                    HelpersManager.filterCategories(category)
-                    tag.classList.add('selected');
-                });
-
-                tagsContainer.appendChild(tag);
-            });
-        });
-    }
-
-    function createButtonWithAction ({ buttonText, className, action, uniqueId, index, promptText, category }) {
+    function createButtonWithAction ({ buttonText, className, action, uniqueId, index, promptText }) {
         const button = document.createElement('button');
         button.textContent = buttonText;
         button.classList.add(className);
         button.dataset.uniqueId = uniqueId;
         button.dataset.index = index;
-        button.dataset.category = category;
         button.dataset.text = promptText;
 
         button.addEventListener('click', action);
@@ -238,8 +172,6 @@ const UIManager = (function () {
         displayPrompts: displayPrompts,
         createDropdownContainer: createDropdownContainer,
         adjustTextareaHeight: adjustTextareaHeight,
-        appendDropdownToContainer: appendDropdownToContainer,
-        setupCategoryInputDropDown: setupCategoryInputDropDown,
-        createTagsCategory: createTagsCategory,
+        appendDropdownToContainer: appendDropdownToContainer
     };
 })();

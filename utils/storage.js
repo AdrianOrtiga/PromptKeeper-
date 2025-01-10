@@ -48,16 +48,11 @@ const StorageManager = (function () {
         });
     }
 
-    function getCategories () {
-        return getFromStorage('categories', ['General', 'Marketing', 'Technical', 'Personal']);
-    }
-
     // Public API exposed outside the IIFE
     return {
         getPrompts: getPrompts,
         savePrompt: savePrompt,
         updatePrompt: updatePrompt,
-        deletePrompt: deletePrompt,
-        getCategories: getCategories,
+        deletePrompt: deletePrompt
     }
 })();   

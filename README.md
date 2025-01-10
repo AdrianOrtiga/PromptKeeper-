@@ -7,8 +7,6 @@
 ## Features  
 
 - **Save Prompts Effortlessly**: Add prompts with a single click.  
-- **Categorize Prompts**: Organize prompts into categories like General, Marketing, Technical, and Personal.  
-- **Filter and Search**: Quickly find prompts by category to match your creative needs.  
 - **User-Friendly Interface**: Minimalistic design for ease of use.  
 
 ---

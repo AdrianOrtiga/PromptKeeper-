@@ -1,8 +1,5 @@
 // popup.js
 document.addEventListener('DOMContentLoaded', () => {
-
-    UIManager.setupCategoryInputDropDown();
-    UIManager.createTagsCategory();
     StorageManager.getPrompts()
         .then((prompts) => {
             UIManager.displayPrompts(prompts);

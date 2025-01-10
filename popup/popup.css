@@ -105,14 +105,9 @@ h1 {
 }
 
 /* Style for the actions block */
-#promptList>div>div:last-child {
+.prompt-text {
     padding: 8px 0;
     font-size: 16px;
-}
-
-/* Style for the actions block */
-.prompt-number {
-    font-size: 20px;
 }
 
 /* Button styles */
@@ -185,4 +180,44 @@ select {
     background-image: none;
     /* Remove the default arrow icon */
     color: var(--text-color);
+}
+
+.show-more {
+    display: block;
+    margin-top: 5px;
+    color: blue;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.show-more:hover {
+    text-decoration: underline;
+}
+
+/* Tag styles */
+.tags-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 8px 12px;
+    border-bottom: 2px solid #ccc;
+    cursor: pointer;
+}
+
+.tag:hover {
+    background-color: #ddd;
+}
+
+.selected:hover {
+    background-color: var(--background-color);
+}
+
+.selected {
+    border-bottom: none;
+    font-weight: bold;
 }

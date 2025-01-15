@@ -99,6 +99,7 @@ h1 {
 
 .actions-block {
     display: flex;
+    justify-content: flex-end;
     gap: 5px;
 }
 

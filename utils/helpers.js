@@ -11,6 +11,19 @@ const HelpersManager = (function () {
         return div.innerHTML;
     }
 
+    function decodeHTMLEntities (text) {
+        const textArea = document.createElement('textarea');
+        let decodedText = text;
+
+        // Decode repeatedly until the text stops changing
+        do {
+            textArea.innerHTML = decodedText;
+            decodedText = textArea.value;
+        } while (decodedText.includes('&'));
+
+        return decodedText;
+    }
+
     function UpdatePrompt (newPrompt) {
         StorageManager.updatePrompt(newPrompt)
             .then(() => {
@@ -39,6 +52,8 @@ const HelpersManager = (function () {
     }
 
     function expandPromptText (promptContainer) {
+        promptContainer.classList.add('expanded')
+
         const promptTextBlock = promptContainer.querySelector('.prompt-text');
         const actionBlock = promptContainer.querySelector('.actions-block');
 
@@ -48,6 +63,8 @@ const HelpersManager = (function () {
     }
 
     function collapsePromptText (promptContainer) {
+        promptContainer.classList.remove('expanded')
+
         const promptTextBlock = promptContainer.querySelector('.prompt-text');
         const actionBlock = promptContainer.querySelector('.actions-block');
 
@@ -58,6 +75,27 @@ const HelpersManager = (function () {
         promptActionsBlock.appendChild(actionBlock);
     }
 
+    function hideShowMoreButton (promptContainer) {
+        const showMoreButton = promptContainer.querySelector('.show-more');
+        showMoreButton.style.display = 'none';
+    }
+
+    function hideInactivePrompts (activePrompt) {
+        const promptContainers = document.querySelectorAll('.prompt-container');
+        promptContainers.forEach((prompt) => {
+            if (prompt !== activePrompt) {
+                prompt.style.display = 'none';
+            }
+        });
+    }
+
+    function showInactivePrompts () {
+        const promptContainers = document.querySelectorAll('.prompt-container');
+        promptContainers.forEach((prompt) => {
+            prompt.style.display = 'block';
+        });
+    }
+
     return {
         adjustTextareaHeight,
         escapeHTML,
@@ -65,6 +103,10 @@ const HelpersManager = (function () {
         deletePrompt,
         isNotValidPrompt,
         expandPromptText,
-        collapsePromptText
+        collapsePromptText,
+        decodeHTMLEntities,
+        hideShowMoreButton,
+        hideInactivePrompts,
+        showInactivePrompts
     };
 })();

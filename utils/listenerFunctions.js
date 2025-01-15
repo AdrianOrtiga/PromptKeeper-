@@ -12,6 +12,10 @@ const ListenerFunctionsManager = (function () {
                 promptInput.value = ''; // Clear input
                 HelpersManager.adjustTextareaHeight(promptInput);
             });
+
+            const newPromptContainer = UIManager.createPromptElementContainer(prompt);
+            const promptListElement = document.getElementById('promptList');
+            promptListElement.insertBefore(newPromptContainer, promptListElement.firstChild);
         }
     }
 
@@ -21,13 +25,17 @@ const ListenerFunctionsManager = (function () {
 
     function copyPromtListener (event) {
         const copyButton = event.target;
-        const formattedPrompt = copyButton.dataset.text;
+        let formattedPrompt = copyButton.dataset.text;
+        formattedPrompt = HelpersManager.decodeHTMLEntities(formattedPrompt);
+        formattedPrompt = formattedPrompt.replace(/<br>/g, '\n');
+
         // Ensure you're getting only the text content without HTML tags
-        navigator.clipboard.writeText(HelpersManager.escapeHTML(formattedPrompt)).then(() => {
+        navigator.clipboard.writeText(formattedPrompt).then(() => {
+            document.querySelectorAll('.copy-message').forEach(message => message.remove());
             const message = document.createElement('span');
             message.textContent = 'Copied!';
             message.classList.add('copy-message');
-            copyButton.parentElement.appendChild(message);
+            copyButton.parentElement.insertBefore(message, copyButton);
 
             setTimeout(() => {
                 message.remove();
@@ -53,19 +61,24 @@ const ListenerFunctionsManager = (function () {
     function modifyPromptListener (event) {
         const modifyButton = event.target;
         const promptContainer = document.getElementById(modifyButton.dataset.uniqueId);
+        const promptIsCollapsed = !promptContainer.classList.contains('expanded')
+        const showMoreButton = promptContainer.querySelector('.show-more')
         const promptTextBlock = promptContainer.querySelector('.prompt-text');
         const isEditable = promptTextBlock.contentEditable === "true";
         promptTextBlock.contentEditable = !isEditable; // Toggle contentEditable
         promptTextBlock.focus(); // Focus on the text block
 
         if (!isEditable) {
+            if (promptIsCollapsed) showMoreButton.click()
+            showMoreButton.style.display = 'none'
             modifyButton.textContent = 'Save'; // Change button text to "Save"
-
+            HelpersManager.hideInactivePrompts(promptContainer);
         } else {
+            if (!promptIsCollapsed) showMoreButton.click()
+            showMoreButton.style.display = 'block'
             modifyButton.textContent = 'Modify'; // Revert button text to "Modify"
-
             const formattedNewPrompt = promptTextBlock.innerHTML.replace('<div>', '\n');
-
+            HelpersManager.showInactivePrompts();
             newPrompt = {
                 id: modifyButton.dataset.uniqueId,
                 text: formattedNewPrompt,

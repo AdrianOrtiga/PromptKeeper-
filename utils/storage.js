@@ -25,6 +25,8 @@ const StorageManager = (function () {
         return this.getPrompts().then((prompts) => {
             prompts.unshift(prompt);
             return setToStorage('prompts', prompts);
+        }).catch((error) => {
+            console.error('Failed to save prompt:', error);
         });
     }
 

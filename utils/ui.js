@@ -90,7 +90,7 @@ const UIManager = (function () {
             buttonText: 'Copy',
             className: 'copy',
             action: ListenerFunctionsManager.copyPromtListener,
-            promptText: prompt.text.replace(/\n/g, '<br>')
+            promptText: prompt.text
         });
 
         // Delete Button
@@ -99,7 +99,7 @@ const UIManager = (function () {
             className: 'delete',
             action: ListenerFunctionsManager.deletePromptListener,
             uniqueId: prompt.id,
-            promptText: prompt.text.replace(/\n/g, '<br>')
+            promptText: prompt.text
         });
 
         // Modify Button
@@ -139,6 +139,7 @@ const UIManager = (function () {
     // Public API for UI Manager
     return {
         displayPrompts: displayPrompts,
+        createPromptElementContainer: createPromptElementContainer,
         adjustTextareaHeight: adjustTextareaHeight
     };
 })();

@@ -28,6 +28,8 @@ const ListenerFunctionsManager = (function () {
         let formattedPrompt = copyButton.dataset.text;
         formattedPrompt = HelpersManager.decodeHTMLEntities(formattedPrompt);
         formattedPrompt = formattedPrompt.replace(/<br>/g, '\n');
+        formattedPrompt = formattedPrompt.replace(/<div>/g, '');
+        formattedPrompt = formattedPrompt.replace(/<\/div>/g, '\n');
 
         // Ensure you're getting only the text content without HTML tags
         navigator.clipboard.writeText(formattedPrompt).then(() => {

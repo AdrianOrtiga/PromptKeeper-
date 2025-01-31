@@ -28,6 +28,10 @@ const HelpersManager = (function () {
         StorageManager.updatePrompt(newPrompt)
             .then(() => {
                 console.log('Prompt updated:', newPrompt);
+                StorageManager.getPrompts()
+                    .then((prompts) => {
+                        UIManager.displayPrompts(prompts);
+                    });
             })
             .catch((error) => {
                 console.error('Failed to update prompt:', error);
